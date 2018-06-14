@@ -35,7 +35,7 @@ class EachKeyValueValidator extends Validator
         if ($rule instanceof Validator) {
             return $rule;
         }
-        elseif (!is_array($rule) || !isset($rule[0])) {
+        elseif (is_array($rule) && isset($rule[0])) {
             return Validator::createValidator($rule[0], $model, $this->attributes, array_slice($rule, 1));
         }
 
@@ -81,7 +81,8 @@ class EachKeyValueValidator extends Validator
         $value = $model->$attribute;
 
         if (!is_array($value) && !($value instanceof \ArrayAccess)) {
-            $this->addError($model, $attribute, $this->message, []);
+            $this->addError($model, $attribute, $this->message, []);\
+            return;
         }
 
         $filtered = [];
@@ -136,7 +137,7 @@ class EachKeyValueValidator extends Validator
                 return $result;
             }
 
-            if (($result = $this->validateKeyValue($this->keyRules, $val)) !== null) {
+            if (($result = $this->validateKeyValue($this->valueRules, $val)) !== null) {
                 return $result;
             }
         }
