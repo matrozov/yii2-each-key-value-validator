@@ -7,6 +7,8 @@ use yii\validators\Validator;
 
 class EachKeyValueValidator extends Validator
 {
+    const SEPARATOR = ' → ';
+
     public $rules = [];
 
     /**
@@ -44,7 +46,7 @@ class EachKeyValueValidator extends Validator
             $fields = [];
 
             foreach ((array)$rule[0] as $field) {
-                $fields[] = $attribute . ':' . $field;
+                $fields[] = $attribute . self::SEPARATOR . $field;
             }
 
             $rules[] = array_merge([$fields], array_slice($rule, 1));
@@ -52,13 +54,13 @@ class EachKeyValueValidator extends Validator
 
         foreach ($value as $key => $val) {
             $attributes = [
-                $attribute . ':key'   => $key,
-                $attribute . ':value' => $val,
+                $attribute . self::SEPARATOR . 'key'   => $key,
+                $attribute . self::SEPARATOR . 'value' => $val,
             ];
 
             $dynModel = DynamicModel::validateData($attributes, $rules);
 
-            $filtered[$dynModel[$attribute . ':key']] = $dynModel[$attribute . ':value'];
+            $filtered[$dynModel[$attribute . self::SEPARATOR . 'key']] = $dynModel[$attribute . self::SEPARATOR . 'value'];
 
             foreach ($dynModel->errors as $errors) {
                 foreach ($errors as $error) {
