@@ -9,8 +9,6 @@ class EachKeyValueValidator extends Validator
 {
     public $rules = [];
 
-    public $messageField = '{attribute}.{message}';
-
     /**
      * {@inheritdoc}
      */
@@ -40,19 +38,31 @@ class EachKeyValueValidator extends Validator
 
         $filtered = [];
 
+        $rules = [];
+
+        foreach ($this->rules as $rule) {
+            $fields = [];
+
+            foreach ((array)$rule[0] as $field) {
+                $fields[] = $attribute . ':' . $field;
+            }
+
+            $rules[] = array_merge([$fields], array_slice($rule, 1));
+        }
+
         foreach ($value as $key => $val) {
             $attributes = [
-                'key'   => $key,
-                'value' => $val,
+                $attribute . ':key'   => $key,
+                $attribute . ':value' => $val,
             ];
 
-            $dynModel = DynamicModel::validateData($attributes, $this->rules);
+            $dynModel = DynamicModel::validateData($attributes, $rules);
 
-            $filtered[$dynModel['key']] = $dynModel['value'];
+            $filtered[$dynModel[$attribute . ':key']] = $dynModel[$attribute . ':value'];
 
             foreach ($dynModel->errors as $errors) {
                 foreach ($errors as $error) {
-                    $this->addError($model, $attribute, $this->messageField, ['message' => $error]);
+                    $this->addError($model, $attribute, $error);
                 }
             }
         }
