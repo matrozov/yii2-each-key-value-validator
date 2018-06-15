@@ -1,4 +1,4 @@
-# yii2-eachKeyValue-validator
+# yii2-each-key-value-validator
 This extension provides the simple key-value validation for Yii framework 2.0.
 
 For license information check the [LICENSE](LICENSE.md)-file.
@@ -52,4 +52,4 @@ print_r($model->errors);
 ```
 You got error: `Data:value must be a string`!
 
-You can assign variable validation for pseudo-field `key` and `value`.
+You can assign variable validation for `key` and `value` pseudo-field.
