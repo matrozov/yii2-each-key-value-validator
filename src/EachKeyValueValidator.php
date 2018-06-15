@@ -7,7 +7,7 @@ use yii\validators\Validator;
 
 class EachKeyValueValidator extends Validator
 {
-    const SEPARATOR = '·';
+    const SEPARATOR = ':';
 
     public $rules = [];
 
