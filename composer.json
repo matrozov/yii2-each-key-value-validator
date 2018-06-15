@@ -1,5 +1,5 @@
 {
-    "name": "matrozov/yii2-eachKeyValue-validator",
+    "name": "matrozov/yii2-each-key-value-validator",
     "description": "KeyValue validator for Yii2",
     "keywords": ["yii2", "yii2-extension", "validator", "each", "key-value"],
     "homepage": "https://github.com/matrozov/yii2-eachKeyValue-validator",
