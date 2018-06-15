@@ -71,4 +71,32 @@ class EachKeyValueValidator extends Validator
 
         $model->$attribute = $filtered;
     }
+
+    /**
+     * @param mixed $value
+     *
+     * @return array|null
+     * @throws
+     */
+    public function validateValue($value)
+    {
+        if (!is_array($value) && !($value instanceof \ArrayAccess)) {
+            return [$this->message, []];
+        }
+
+        foreach ($value as $key => $val) {
+            $attributes = [
+                'key'   => $key,
+                'value' => $val,
+            ];
+
+            $dynModel = DynamicModel::validateData($attributes, $this->rules);
+
+            if ($dynModel->hasErrors()) {
+                return [reset(reset($dynModel->errors)), []];
+            }
+        }
+
+        return null;
+    }
 }
