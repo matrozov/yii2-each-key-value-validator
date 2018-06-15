@@ -13,13 +13,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 ```
-php composer.phar require --prefer-dist matrozov/yii2-eachKeyValue-validator
+php composer.phar require --prefer-dist matrozov/yii2-each-key-value-validator
 ```
 
 or add
 
 ```
-"matrozov/yii2-eachKeyValue-validator": "dev-master"
+"matrozov/yii2-each-key-value-validator": "dev-master"
 ```
 
 to the require section of your composer.json.
