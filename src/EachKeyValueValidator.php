@@ -48,8 +48,16 @@ class EachKeyValueValidator extends Validator
             foreach ((array)$rule[0] as $field) {
                 $fields[] = $attribute . self::SEPARATOR . $field;
             }
+            
+            $method = $rule[1];
 
-            $rules[] = array_merge([$fields], array_slice($rule, 1));
+            if ($model->hasMethod($method)) {
+                $rule[1] = function ($attribute, $param, $validator) use ($model, $method) {
+                    call_user_func([$model, $method], $attribute, $param, $validator);
+                };
+            }
+
+            $rules[] = array_merge([$fields, $rule[1]], array_slice($rule, 2));
         }
 
         foreach ($value as $key => $val) {
